@@ -1,23 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  creationTimestamp: null
   labels:
     app: backend
+  name: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: backend
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: jolun18/fortune-cookie-backend:latest
-        imagePullPolicy: Always
-        env:
-        - name: REDIS_DNS
-          value: "redis"
+      - image: jolun18/fortune-cookie-backend:latest
+        name: network-backend
+        resources: {}
+status: {}
