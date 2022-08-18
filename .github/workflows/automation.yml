@@ -27,10 +27,14 @@ jobs:
         with:
           name: code
           path: .
+      - name: change folder
+        run: "cd backend"
       - name: Build backend
-        run: "go build backend/main.go"
+        run: "go build ."
+         - name: change folder frontend
+        run: "cd frontend"
       - name: build frontend
-        run: "go build frontend/main.go"
+        run: "go build ."
       - name: upload repo
         uses: actions/upload-artifact@v2
         with:
@@ -38,7 +42,7 @@ jobs:
           path: .
   Test:
     runs-on: ubuntu-latest
-    needs: [clone-down, Build]
+    needs: [clone-down]
     steps:
       - name: download something
         uses: actions/download-artifact@v2
@@ -46,4 +50,4 @@ jobs:
           name: code
           path: .
       - name: Test
-        run: "main_test.go" 
+        run: "frontend/main_test.go" 
