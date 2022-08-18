@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: jolun18/fortune-cookie-frontend:latest
+        env:
+        - name: BACKEND_DNS
+          value: "backend"
+        - name: BACKEND_PORT
+          value: "9000"
+        name: network-frontend
+        resources: {}
+status: {}
