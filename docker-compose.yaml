@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     ports: 
       - 9000:9000
+    environment:
+    - REDIS_DNS=redis
 
     
 
@@ -21,3 +23,13 @@ services:
       - backend
     environment:
       - BACKEND_DNS=backend
+
+  redis:
+    image: redis
+    ports: 
+      - 6379:6379
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
