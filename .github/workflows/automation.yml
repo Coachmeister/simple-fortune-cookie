@@ -6,6 +6,10 @@ on:
   pull_request:
     branches:
       - main
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+  GIT_COMMIT: ${{ github.sha }}
 jobs:
   clone-down:
     name: clone down repo
@@ -17,33 +21,41 @@ jobs:
         with:
           name: code
           path: .
-  Build:
+  Build-backend:
     runs-on: ubuntu-latest
-    needs: clone-down
-  
+    needs: [clone-down]
     steps:
       - name: download code
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
-      - name: Build backend
-        run: "go build backend/main.go"
-      - name: build frontend
-        run: "go build frontend/main.go"
-      - name: upload repo
-        uses: actions/upload-artifact@v2
+      - name: build docker
+        run: chmod +x ci/build-docker.sh && ci/build-docker.sh
+      - name: push docker
+        run: chmod +x ci/push-docker.sh && ci/push-docker.sh
+  Build-frontend:
+    runs-on: ubuntu-latest
+    needs: [clone-down]
+    steps:
+      - name: download code
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
+      - name: build docker-frontend
+        run: chmod +x ci/build-docker-frontend.sh && ci/build-docker-frontend.sh
+      - name: push docker-frontend
+        run: chmod +x ci/push-docker-frontend.sh && ci/push-docker-frontend.sh
   Test:
     runs-on: ubuntu-latest
-    needs: [clone-down, Build]
+    needs: [clone-down]
     steps:
-      - name: download something
-        uses: actions/download-artifact@v2
+      - name: download code
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
       - name: Test
-        run: "main_test.go"
+        working-directory: ./frontend
+        run: "go test" 
