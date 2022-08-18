@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  test:
+    build: component-test
+    environment:
+      SERVICE_URL: http://web:8080
+    depends_on:
+      - web
+      - backend
+  web:
+    image: ${docker_username}fortune-cookie-frontend:latest
+  backend:
+    image: ${docker_username}fortune-cookie-backend:latest
