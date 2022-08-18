@@ -23,9 +23,9 @@ spec:
         resources: {}
         volumeMounts:
             - mountPath: /data
-              name: redis
+              name: redis-volume
       volumes:
-        - name: redis
+        - name: redis-volume
           persistentVolumeClaim:
-            claimName: redis
+            claimName: pvc-redis
 status: {}
