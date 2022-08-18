@@ -61,7 +61,7 @@ jobs:
         run: "go test"
   Custom-test:
     runs-on: ubuntu-latest
-    needs: [clone-down]
+    needs: [clone-down, Build-frontend, Build-backend]
     steps:
       - name: download code
         uses: actions/download-artifact@v1
