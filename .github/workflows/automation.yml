@@ -66,7 +66,7 @@ jobs:
       - name: download code
         uses: actions/download-artifact@v1
         with:
-          name: code
+          name: code 
           path: .
       - name: custom testing
         run: chmod +x ci/component-test.sh && GIT_COMMIT="GA-$GITHUB_SHA" && ci/component-test.sh
