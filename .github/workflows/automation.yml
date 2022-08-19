@@ -58,4 +58,4 @@ jobs:
           path: .
       - name: Test
         working-directory: ./frontend
-        run: "go test" 
+        run: "go test"
